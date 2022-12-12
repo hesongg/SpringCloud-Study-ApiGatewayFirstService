@@ -1,12 +1,16 @@
 package study.springcloud.firstservice;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Slf4j
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/first-service")
 public class FirstServiceController {
@@ -23,7 +27,10 @@ public class FirstServiceController {
     }
 
     @GetMapping("/check")
-    public String check() {
-        return "This is message from first service";
+    public String check(HttpServletRequest request) {
+        String port = String.valueOf(request.getServerPort());
+        log.info("Server port={}", port);
+
+        return String.format("This is message from first service %s", port);
     }
 }
